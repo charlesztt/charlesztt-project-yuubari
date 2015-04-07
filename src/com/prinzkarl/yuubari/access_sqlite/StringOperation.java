@@ -1,5 +1,9 @@
 package com.prinzkarl.yuubari.access_sqlite;
 
+/*
+ * Please download sqlite-jdbc from https://bitbucket.org/xerial/sqlite-jdbc/downloads.
+ */
+
 import java.sql.*;
 
 public class StringOperation {
@@ -50,10 +54,10 @@ public class StringOperation {
 		c.close();
 		return target_value;
 	}
-	
-	public static boolean does_not_exist(String target_column, String index_id_key,
-			String index_id_value, String db_file, String table_name)
-			throws SQLException {
+
+	public static boolean does_not_exist(String target_column,
+			String index_id_key, String index_id_value, String db_file,
+			String table_name) throws SQLException {
 		Connection c = null;
 		Statement stmt = null;
 		c = DriverManager.getConnection("jdbc:sqlite:" + db_file);
@@ -77,33 +81,35 @@ public class StringOperation {
 		c = DriverManager.getConnection("jdbc:sqlite:" + db_file);
 		c.setAutoCommit(false);
 		stmt = c.createStatement();
-		String sql = "UPDATE " + table_name + " set " + target_column + " = '"+ new_value
-				+ "' WHERE " + index_id_key + "='" + index_id_value + "';";
-//		System.out.println(sql);
+		String sql = "UPDATE " + table_name + " set " + target_column + " = '"
+				+ new_value + "' WHERE " + index_id_key + "='" + index_id_value
+				+ "';";
+		// System.out.println(sql);
 		stmt.executeUpdate(sql);
 		stmt.close();
 		c.commit();
 		c.close();
 	}
-	
-	public static void delete(String index_id_key, String index_id_value, String db_file,
-			String table_name) throws SQLException {
+
+	public static void delete(String index_id_key, String index_id_value,
+			String db_file, String table_name) throws SQLException {
 		Connection c = null;
 		Statement stmt = null;
 		c = DriverManager.getConnection("jdbc:sqlite:" + db_file);
 		c.setAutoCommit(false);
 		stmt = c.createStatement();
-		String sql = "DELETE from " + table_name + " WHERE " + index_id_key + "='" + index_id_value + "';";
-//		System.out.println(sql);
+		String sql = "DELETE from " + table_name + " WHERE " + index_id_key
+				+ "='" + index_id_value + "';";
+		// System.out.println(sql);
 		stmt.executeUpdate(sql);
 		stmt.close();
 		c.commit();
 		c.close();
-	}	
+	}
 
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
-		// just tests
+		// This is only a test.
 		String[] columns = { "userID", "maxID", "LastID" };
 		String[] values = { "110", "001", "011" };
 		insert(columns, values, "test.db", "tweetInfo");
@@ -111,15 +117,14 @@ public class StringOperation {
 				"tweetInfo"));
 		System.out.println(does_not_exist("maxID", "userID", "110", "test.db",
 				"tweetInfo"));
-		update("maxID", "2333222", "userID", "110", "test.db","tweetInfo");
+		update("maxID", "2333222", "userID", "110", "test.db", "tweetInfo");
 		System.out.println(select("maxID", "userID", "110", "test.db",
 				"tweetInfo"));
 		delete("userID", "110", "test.db", "tweetInfo");
-		try{
-			System.out.println(does_not_exist("maxID", "userID", "110", "test.db",
-					"tweetInfo"));
-		}
-		catch(SQLException e){
+		try {
+			System.out.println(does_not_exist("maxID", "userID", "110",
+					"test.db", "tweetInfo"));
+		} catch (SQLException e) {
 			System.err.println("Failed");
 		}
 	}
