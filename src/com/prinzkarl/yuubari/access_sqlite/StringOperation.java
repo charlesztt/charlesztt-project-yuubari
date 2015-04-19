@@ -107,26 +107,6 @@ public class StringOperation {
 		c.close();
 	}
 
-	public static void main(String[] args) throws SQLException {
-		// TODO Auto-generated method stub
-		// This is only a test.
-		String[] columns = { "userID", "maxID", "LastID" };
-		String[] values = { "110", "001", "011" };
-		insert(columns, values, "test.db", "tweetInfo");
-		System.out.println(select("maxID", "userID", "110", "test.db",
-				"tweetInfo"));
-		System.out.println(does_not_exist("maxID", "userID", "110", "test.db",
-				"tweetInfo"));
-		update("maxID", "2333222", "userID", "110", "test.db", "tweetInfo");
-		System.out.println(select("maxID", "userID", "110", "test.db",
-				"tweetInfo"));
-		delete("userID", "110", "test.db", "tweetInfo");
-		try {
-			System.out.println(does_not_exist("maxID", "userID", "110",
-					"test.db", "tweetInfo"));
-		} catch (SQLException e) {
-			System.err.println("Failed");
-		}
-	}
+
 
 }
